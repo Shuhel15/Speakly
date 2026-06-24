@@ -1,8 +1,8 @@
 
-function Home() {
+function Home({user}) {
   return (
-    <div>
-      Home
+    <div className="text-4xl text-green-500">
+      
     </div>
   )
 }

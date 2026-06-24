@@ -4,6 +4,7 @@ import connectDB from "./configs/ConnectDB.js"
 import authRouter from "./Routes/auth.route.js"
 import cookieParser from "cookie-parser"
 import cors from "cors"
+import userRouter from "./Routes/user.route.js"
 dotenv.config()
 
 const app = express()
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/auth", authRouter)
+app.use("/api/user", userRouter)
 
 const PORT = process.env.PORT
 app.listen(PORT,()=>{

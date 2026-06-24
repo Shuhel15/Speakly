@@ -39,7 +39,6 @@ const userSchema = new mongoose.Schema(
     bussinessDescription: {
       type: String,
       default: "",
-      required: true,
     },
     tone: {
       type: String,
@@ -66,7 +65,6 @@ const userSchema = new mongoose.Schema(
     geminiApiKey: {
       type: String,
       default: "",
-      required: true,
     },
     geminiStatus:{
       type: String,

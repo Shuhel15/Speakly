@@ -9,11 +9,13 @@ export const googleAuth = async (req, res) => {
     }
     let user = await User.findOne({ email });
     if (!user) {
-      user = new User({ name, email });
-      user = await user.create({ name, email });
+      user = await User.create({
+        name,
+        email,
+      });
     }
     const token = await genToken(user._id);
-    res.cookie("token", token,{
+    res.cookie("token", token, {
       httpOnly: true,
       secure: false,
       sameSite: "strict",
@@ -23,21 +25,22 @@ export const googleAuth = async (req, res) => {
     return res.status(200).json(user);
 
   } catch (error) {
-    return res.status(500).json({ message: `Goole Auth error ${error}` });
     console.log(error);
+    return res.status(500).json({ message: `Goole Auth error ${error}` });
+    
   }
 };
 
 export const logout = async (req, res) => {
   try {
-    res.clearCookie("token",{
+    res.clearCookie("token", {
       httpOnly: true,
       secure: false,
       sameSite: "strict",
     });
     return res.status(200).json({ message: `Logout Sucessfully` });
-  }catch(error){
+  } catch (error) {
     return res.status(500).json({ message: `Logout Failed ${error}` });
-    console.log("Error while logging out",error);
+    console.log("Error while logging out", error);
   }
-  }
+}
