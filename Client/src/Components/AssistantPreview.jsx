@@ -1,0 +1,152 @@
+import { useState } from "react";
+
+const themes = {
+  dark: {
+    bg: "bg-[#050816]",
+    overlay:
+      "bg-[radial-gradient(circle_at_top,rgba(168,85,247,0.18),transparent_45%)]",
+    orb: "from-cyan-400 to-purple-500 to-pink-500",
+    cardBorder: "border border-white/10",
+    text: "text-white",
+    sub: "text-white/65",
+    listening: "text-emerald-400",
+    wave: "bg-emebral-400",
+    button: "from-purple-500 to-violet-400",
+    micGlow: "shadow-[0_0_60px_rgba(168,85,247,0.45)]",
+  },
+  light: {
+    bg: "bg-lenear-to-br from-white via-[#f8fafc] to-[#eef6ff]",
+    overlay:
+      "bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.14),transparent_45%)]",
+    orb: "from-blue-300 via-cyan-300 to-pink-500",
+    cardBorder: "border border-[#dbeafe]",
+    text: "text-[#081028]",
+    sub: "text-[#475569]",
+    listening: "text-blue-500",
+    wave: "bg-blue-500",
+    button: "from-blue-400 to-violet-400",
+    micGlow: "shadow-[0_0_70px_rgba(59,130,246,0.35)]",
+  },
+  glass: {
+    bg: "bg-white/5 backdrop-blur-3xl",
+    overlay:
+      "bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_45%)]",
+    orb: "from-cyan-400 via-violet-500 to-pink-500",
+    cardBorder: "border border-white/10",
+    text: "text-black",
+    sub: "text-gray-600",
+    listening: "text-emerald-400",
+    wave: "bg-emerald-400",
+    button: "from-cyan-500 to-violet-500",
+    micGlow: "shadow-[0_0_80px_rgba(139,92,246,0.35)]",
+  },
+  neon: {
+    bg: "bg-black",
+    overlay:
+      "bg-[radial-gradient(circle_at_top,rgba(57,255,20,0.16),transparent_45%)]",
+    orb: "from-[#39FF14] via-green-400 to-emerald-500",
+    cardBorder: "border border-[#39FF14]/40",
+    text: "text-white",
+    sub: "text-green-100/70",
+    listening: "text-[#39FF14]",
+    wave: "bg-[#39FF14]",
+    button: "from-[#39FF14] to-emerald-500",
+    micGlow: "shadow-[0_0_120px_rgba(57,255,20,0.5)]",
+    cardGlow:
+      "shadow-[0_0_40px_rgba(57,255,20,0.25),0_0_90px_rgba(57,255,20,0.15)]",
+  },
+};
+function AssistantPreview() {
+  const [theme, setTheme] = useState("dark");
+  const current = themes[theme];
+  return (
+    <div
+      className={"flex items-center justify-center px-3 sm:px-4 py-10 sm:py-14"}
+    >
+      <div
+        className={`relative w-70 h-112.5 sm:w-82.5 sm:h-125 md:w-95 md:h-137.5
+      rounded-4xl sm:rounded-[42px] overflow-hidden transition-all duration-500 ${current.bg}
+      ${current.cardBorder} shadow-[0_20px_80px_rgba(0,0,0,0.28)]`}
+      >
+        <div className={`absolute inset-0 ${current.overlay}`} />
+        <div
+          className="absolute top-4 right-4 sm:top-5 sm:right-5 z-30 
+        flex items-center gap-2"
+        >
+          <button
+            onClick={() => setTheme("dark")}
+            className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[#050816]
+            border transition-all cursor-pointer
+            ${
+              theme === "dark"
+                ? "border-purple-400 scale-110"
+                : "border-white/20"
+            }`}
+          />
+          <button
+            onClick={() => setTheme("light")}
+            className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white
+            border transition-all cursor-pointer
+            ${
+              theme === "light"
+                ? "border-blue-400 scale-110"
+                : "border-gray-300"
+            }`}
+          />
+          <button
+            onClick={() => setTheme("glass")}
+            className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-linear-to-br from-white/80  to-white/20
+            border transition-all cursor-pointer
+            ${
+              theme === "glass" ? "border-white scale-110" : "border-white/20"
+            }`}
+          />
+          <button
+            onClick={() => setTheme("neon")}
+            className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-linear-to-br from-emerald-400 to-green-500
+            border transition-all cursor-pointer
+            ${
+              theme === "neon"
+                ? "border-emerald-300 scale-110"
+                : "border-transparent"
+            }`}
+          />
+        </div>
+
+        <div
+          className={`relative z-20 flex flex-col items-center
+          justify-between h-full px-5 sm:px-7 py-6 sm:py-8`}
+        >
+          <div className={`relative mt-1`}>
+            <div
+              className={`absolute inset-0 scale-[2] rounded-full blur-[80px]
+                bg-linear-to-r ${current.orb} opacity-60`}
+            />
+            <div
+              className={` relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32
+                  rounded-full bg-linear-to-br ${current.orb} shadow-[0_0_120px_rgba(255,255,255,0.15)]
+                  animate-pulse before:absolute before:inset-0 before:rounded-full 
+                  before:bg-white/20 before:blur-xl`}
+            />
+          </div>
+          <div className="text-center">
+            <h2 className={`text-[20px] sm:text-[26px] md:text-[32px]
+              font-semibold ${current.text}`}>
+                Hello! I'm Speakly AI
+                </h2>
+            <p className={`mt-4 text-[13px] sm:text-[15px] md:text-[16px]
+              leading-6 sm:leading-7 max-w-70 mx-auto ${current.sub}`}>
+                Your smart voice assistant<br/>
+                Ask anything about this website.
+              </p>
+
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default AssistantPreview;

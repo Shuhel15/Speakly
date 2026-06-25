@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
-import { FiLogIn, FiLogOut, FiMenu, FiX } from "react-icons/fi";
+import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { ServerUrl } from "../App";
