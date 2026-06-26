@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { FaMicrophone } from "react-icons/fa";
+
 
 const themes = {
   dark: {
@@ -10,7 +12,7 @@ const themes = {
     text: "text-white",
     sub: "text-white/65",
     listening: "text-emerald-400",
-    wave: "bg-emebral-400",
+    wave: "bg-emerald-400",
     button: "from-purple-500 to-violet-400",
     micGlow: "shadow-[0_0_60px_rgba(168,85,247,0.45)]",
   },
@@ -141,7 +143,27 @@ function AssistantPreview() {
               </p>
 
 
-              
+              <div className="mt-6 sm:mt-8">
+                <p className={`text-sm sm:text-base font-medium ${current.listening}`}>
+                  Listening...
+                </p>
+                <div className="flex items-end justify-center gap-1 sm:gap-1.5 mt-3 sm:mt-4">
+                  <span className={`w-1 h-3 rounded-full ${current.wave} animate-pulse`} />
+                  <span className={`w-1 h-6 rounded-full ${current.wave} animate-pulse`} />
+                  <span className={`w-1 h-2 rounded-full ${current.wave} animate-pulse`} />
+                  <span className={`w-1 h-7 rounded-full ${current.wave} animate-pulse`} />
+                  <span className={`w-1 h-4 rounded-full ${current.wave} animate-pulse`} />
+                  <span className={`w-1 h-2 rounded-full ${current.wave} animate-pulse`} />
+                </div>
+              </div>
+          </div>
+          <div className={`relative mt-1`}>
+            <div className={` absolute inset-0rounded-full blur-2xl ${current.wave} opacity-60`} />
+
+            <button className={`relative w-12 h-12 sm:w-15 sm:h-15 md:w-18 
+              md:h-18 rounded-full bg-linear-to-br ${current.button} ${current.micGlow} flex items-center justify-center`}>
+                <FaMicrophone size={24} />
+              </button>
           </div>
         </div>
       </div>

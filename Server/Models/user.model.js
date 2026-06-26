@@ -28,15 +28,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "Aivo",
     },
-    bussinessName: {
+    businessName: {
       type: String,
       default: "",
     },
-    bussinessType: {
+    businessType: {
       type: String,
       default: "",
     },
-    bussinessDescription: {
+    businessDescription: {
       type: String,
       default: "",
     },
