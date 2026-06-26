@@ -239,6 +239,7 @@ function Home() {
           <p className="text-gray-500 text-sm">
             ©{new Date().getFullYear()} Speakly AI. All rights reserved.
           </p>
+          <p className="text-gray-500 text-shadow-mauve-200">Made by Shuhel Ahmed with ❤️</p>
         </div>
       </footer>
     </div>

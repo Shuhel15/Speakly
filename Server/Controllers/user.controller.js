@@ -30,12 +30,15 @@ export const saveAssistant = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    const normalizedTone = typeof tone === "string" ? tone.toLowerCase() : tone;
+    const normalizedTheme = typeof theme === "string" ? theme.toLowerCase() : theme;
+
     user.assistantName = assistantName;
     user.businessName = businessName;
     user.businessType = businessType;
     user.businessDescription = businessDescription;
-    user.tone = tone;
-    user.theme = theme;
+    user.tone = normalizedTone;
+    user.theme = normalizedTheme;
     if(geminiApiKey){
     user.geminiApiKey = geminiApiKey;
     }

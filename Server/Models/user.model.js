@@ -42,13 +42,13 @@ const userSchema = new mongoose.Schema(
     },
     tone: {
       type: String,
-      enum: ["Friendly", "Formal", "Professional"],
-      default: "Friendly",
+      enum: ["friendly", "formal", "professional"],
+      default: "friendly",
     },
     theme: {
       type: String,
-      enum: ["Light", "Dark", "glass", "neon"],
-      default: "Dark",
+      enum: ["light", "dark", "glass", "neon"],
+      default: "dark",
     },
     enableVoice: {
       type: Boolean,
