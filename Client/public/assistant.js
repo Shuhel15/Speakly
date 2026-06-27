@@ -4,9 +4,9 @@
   const script = document.currentScript;
   const userId = script?.dataset.userId;
 
-  const theme = "neon";
+  const theme = "dark";
 
-  const assistantConfig = null;
+  let assistantConfig = null;
 
   //loading css
   const link = document.createElement("link");
@@ -91,4 +91,137 @@
     open = !open;
       popup.style.display = open ? "flex" : "none";
   }
+
+
+
+  // load assistant
+
+  const loadAssistant = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/assistant/config/${userId}`);
+
+     const  data = await res.json();
+
+     if(data){
+      assistantConfig = data.user;
+      applyConfig();
+     }
+    }catch(error){
+      console.error("Failed to load assistant config:", error);
+    }
+  }
+
+  const applyConfig = ()=>{
+    if(!assistantConfig) return;
+
+    popup.className = `speakly-popup theme-${assistantConfig.theme}`;
+    button.className = `speakly-btn theme-${assistantConfig.theme}`;
+    const title = popup.querySelector(".speakly-title");
+    title.innerHTML = `Hello! I'm ${assistantConfig.assistantName || "speakly AI"}`;
+    const sub = popup.querySelector(".speakly-sub");
+    sub.innerHTML = ` Welcome to ${assistantConfig.businessName}.<br/> Ask anything about this website.`;
+
+  }
+  loadAssistant();
+
+
+  const status = popup.querySelector(".speakly-status");
+  const wave = popup.querySelector(".speakly-wave");
+  const userText = popup.querySelector(".speakly-user-text");
+  const aiText = popup.querySelector(".speakly-ai-text");
+  const mic = popup.querySelector(".speakly-mic");
+
+  // text-speech
+
+  const speak =(text)=>{
+    window.speechSynthesis.cancel();
+    //show ai response
+    aiText.innerTest = text;
+
+    status.innerText = "AI Speaking...";
+
+    const speech = new SpeechSynthesisUtterance(text);
+
+    speech.lang = "hi-IN";
+    speech.rate = 1;
+    speech.pitch = 1;
+    speech.volume = 1;
+
+    // voice end
+    speech.onend = ()=>{
+      status.innerText = "Tap button to Speak";
+      wave.style.opacity = "0";
+      }
+
+      //start speaking
+        window.speechSynthesis.speak(speech);
+  }
+
+
+  const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (speechRecognition) {
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "en-US";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    mic.onclick =()=>{
+      status.innerText = "Listening...";
+      userText.innerText = "";
+      aiText.innerText = "";
+      wave.style.opacity = "1";
+      recognition.start();
+    }
+
+    recognition.onresult = async (e) => {
+      const text = e.results[0][0].transcript;
+      userText.innerText = `You: ${text}`;
+      recognition.stop();
+
+      setTimeout(async () => {
+        try{
+          status.innerText = "Thinking...";
+          const response = await fetch("http://localhost:5000/api/assistant/ask", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId,
+              message: text,
+              currentPath: window.location.pathname
+            }),
+          });
+
+          const data = await response.json();
+          console.log("AI Response:", data);
+          if (data.success) {
+            if (data.action === "navigate") {
+              speak(data.response);
+              setTimeout(() => {
+                window.location.href = data.path;
+              }, 1500);
+            } else {
+              speak(data.aiResponse);
+            }
+          } else {
+            speak("Sorry, I couldn't process your request.");
+          }
+        }catch(error){
+          console.log(error);
+          speak("Server Error. Please try again later.");
+        }
+      },600)
+      
+    }
+
+    recognition.onerror = (e) => {
+      status.innerText = "Tap button to Speak";
+      wave.style.opacity = "0";
+      console.error("Speech recognition error:", e.error);
+    }
+  }
+
 })();
