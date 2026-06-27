@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaRegCopy } from "react-icons/fa6";
 import { BsTrash3 } from "react-icons/bs";
 import axios from "axios";
-import { ServerUrl } from "../App.jsx";
+import { CLIENT_URL, ServerUrl } from "../App.jsx";
 import tost from "react-hot-toast";
 
 const THEMES = ["light", "dark", "glass", "neon"];
@@ -81,6 +81,23 @@ function Builder({ user, setUser }) {
       setLoading(false);
     }
   };
+
+  const remainingMessages = Math.max(
+    0,
+    (user?.requestLimit || 0) - (user?.totalMessages || 0),
+  );
+
+  const remaininDays = user?.proExpiresAt
+    ? Math.max(
+        0,
+        Math.ceil(
+          (new Date(user.proExpiresAt) - new Date()) / (1000 * 60 * 60 * 24),
+        ),
+      )
+    : 0;
+
+  const embedCode = `<script src="${CLIENT_URL}/assistant.js" data-user-id="${user?._id}"></script>`;
+
   return (
     <div className="min-h-screen bg-[#f7f8fc] px-4 py-8">
       <div className="max-w-4xl mx-auto">
@@ -90,22 +107,101 @@ function Builder({ user, setUser }) {
           </h2>
           <p className="text-gray-500 mt-1">Customize your virtual assistant</p>
         </div>
-        {
-          user.isSetupComplete && !editAssistant &&(
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 mb-6">
-              <p className="text-sm text-gray-400">
-                Assistant
-              </p>
-              <h2 className="text-3xl font-bold text-[#081028] mt-1">
-                {user.assistantName}
-              </h2>
-              <p className="text-gray-500 mt-3 leading-7">
-                Your Assistant is ready to assist you.
+        {user.isSetupComplete && !editAssistant && (
+          <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 mb-6">
+            <p className="text-sm text-gray-400">Assistant</p>
+            <h2 className="text-3xl font-bold text-[#081028] mt-1">
+              {user.assistantName}
+            </h2>
+            <p className="text-gray-500 mt-3 leading-7">
+              Your Assistant is ready to assist you.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+              <div className="rounded-2xl border border-gray-100 bg-[#f8fafc]">
+                <p className="text-sm text-gray-400 px-2 pt-1">Current Plan</p>
+                <h2 className=" text-xl font-bold text-[#081028] mt-1 px-2 pb-1 capitalize">
+                  {user.plan}
+                </h2>
+              </div>
+              <div className="rounded-2xl border border-gray-100 bg-[#f8fafc]">
+                <p className="text-sm text-gray-400 px-2 pt-1">Gemini Status</p>
+                <h2
+                  className={` text-xl font-bold mt-1 px-2 pb-1 capitalize
+                  ${user?.geminiStatus === "active" ? "text-emerald-600" : user?.geminiStatus === "invalid" ? "text-red-500" : "text-amber-500"}`}
+                >
+                  {user.geminiStatus}
+                </h2>
+              </div>
+              <div className="rounded-2xl border border-gray-100 bg-[#f8fafc]">
+                <p className="text-sm text-gray-400 px-2 pt-1">
+                  {user?.plan === "free" ? "Messages Left" : "Plan Expiry"}
+                </p>
+                <h2 className=" text-xl font-bold text-[#081028] mt-1 px-2 pb-1 capitalize">
+                  {user?.plan === "free"
+                    ? remainingMessages
+                    : `${remaininDays} days left`}
+                </h2>
+              </div>
+            </div>
+            <div className="mt-7 ">
+              <div className="mt-4 rounded-2xl bg-amber-50 border border-amber-400 p-4">
+                <p className="text-sm font-semibold text-amber-900">
+                  Where to paste this script?
+                </p>
+                <p className="text-sm text-amber-700 mt-2 leading-6">
+                  Paste this script before the closing{" "}
+                  <span className="font-semibold">{"</body>"}</span> tag of your
+                  website HTML file.
+                  <br />
+                  <br />
+                  Example:
+                </p>
+                <pre
+                  className="mt-3 bg-[#0b1020] text-emerald-400 rounded-xl 
+                p-3 text-xs font-mono overflow-x-auto"
+                >
+                  {`<body> 
+
+Your Website Content 
+
+<script src="${CLIENT_URL}/assistant.js" data-user-id="${user?._id}"></script> 
+
+</body>`}
+                </pre>
+              </div>
+              <p className="text-sm font-medium text-[#081028] mt-3 mb-3">
+                Embed Code
               </p>
             </div>
-          )
-        }
-        {editAssistant && 
+            <div className="relative">
+              <textarea
+                readOnly
+                value={embedCode}
+                className="w-full h-20 bg-[#0b1020] text-emerald-400 rounded-2xl
+              p-4 text-sm font-mono resize-none outline-none"
+              />
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(embedCode);
+                  tost.success("Copied!");
+                }}
+                className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-white
+              flex items-center justify-center"
+              >
+                <FaRegCopy />
+              </button>
+            </div>
+            <button
+              onClick={() => setEditAssistant(true)}
+              className="mt-6 h-12 px-6 rounded-2xl bg-linear-to-r 
+            from-green-500 to-emerald-500 text-white font-medium"
+            >
+              {" "}
+              Edit Assistant
+            </button>
+          </div>
+        )}
+        {editAssistant && (
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-3xl border-gray-100 border shadow-md">
               <h2 className="text-lg font-semibold mb-5 ">Basic Information</h2>
@@ -297,7 +393,7 @@ function Builder({ user, setUser }) {
                   : "Save Assistant"}
             </button>
           </div>
-        }
+        )}
       </div>
     </div>
   );

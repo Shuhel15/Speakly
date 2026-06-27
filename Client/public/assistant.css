@@ -1,0 +1,485 @@
+
+/* toogle btn */
+.speakly-btn{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 68px;
+  height: 68px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: .3s;
+}
+.speakly-btn img{
+  width: 85px;
+  height: 85px;
+  margin-top: 5px;
+  object-fit: contain;
+}
+
+.speakly-btn:hover{
+  transform: scale(1.06);
+}
+/* popup */
+
+.speakly-popup {
+  position: fixed;
+  right: 18px;
+  bottom: 98px;
+  width: 360px;
+  min-width: 360px;
+  max-width: 360px;
+  height: 580px;
+  min-height: 580px;
+  max-height: 580px;
+  border-radius: 38px;
+  overflow: hidden;
+  z-index: 999999;
+  display: none;
+  box-shadow: 0px 20px 80px rgba(0, 0, 0, 0.32);
+}
+
+.speakly-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.speakly-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 18px 20px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.speakly-top {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.speakly-orb-wrap {
+  position: relative;
+  margin-top: 2px;
+}
+
+.speakly-orb-glow {
+  position: absolute;
+  inset: 0;
+  transform: scale(1.8);
+  border-radius: 999px;
+  filter: blur(75px);
+  opacity: 0.6;
+}
+
+.speakly-orb {
+  position: relative;
+  width: 118px;
+  height: 118px;
+  border-radius: 999px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.speakly-title {
+  margin-top: 14px;
+  font-size: 28px;
+  line-height: 1.1;
+  font-weight: 700;
+  text-align: center;
+}
+
+.speakly-sub {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.speakly-status {
+  margin-top: 18px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.speakly-wave {
+  margin-top: 8px;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 28px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.speakly-wave.active {
+  opacity: 1;
+}
+
+.speakly-wave span {
+  width: 5px;
+  border-radius: 999px;
+  animation: wave 1.2s infinite ease-in-out;
+}
+
+.speakly-wave span:nth-child(1) {
+  height: 14px;
+}
+.speakly-wave span:nth-child(2) {
+  height: 28px;
+}
+.speakly-wave span:nth-child(3) {
+  height: 16px;
+}
+.speakly-wave span:nth-child(4) {
+  height: 34px;
+}
+.speakly-wave span:nth-child(5) {
+  height: 20px;
+}
+
+@keyframes wave {
+  0% {
+    opacity: 0.4;
+    transform: scaleY(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.2);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scaleY(0.8);
+  }
+}
+
+.speakly-user-text {
+  margin-top: 10px;
+  min-height: 20px;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  font-weight: 600;
+}
+
+.speakly-ai-text {
+  margin-top: 2px;
+  min-height: 18px;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+  opacity: 0.82;
+}
+
+.speakly-bottom {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.speakly-mic {
+  position: relative;
+  z-index: 2;
+  width: 74px;
+  height: 74px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  color: white;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+  animation: micFloat 2.5s infinite ease-in-out;
+}
+
+.speakly-mic:hover {
+  transform: scale(1.06);
+}
+
+@keyframes micFloat {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.speakly-mic-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/* dark theme */
+.theme-dark {
+  background: #050816;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.theme-dark .speakly-overlay {
+  background: linear-gradient(circle at top, rgba(168, 85, 247, 0.18), transparent 45%);
+}
+
+.theme-dark .speakly-orb,
+.theme-dark .speakly-orb-glow {
+  background: linear-gradient(135deg, #4cc9ff, #7c3aed, #ec4899);
+}
+
+.theme-dark .speakly-title {
+  color: white;
+}
+
+.theme-dark .speakly-sub {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.theme-dark .speakly-status {
+  color: #22e3a6;
+}
+
+.theme-dark .speakly-wave span {
+  background: #22e3a6;
+}
+
+.theme-dark .speakly-user-text {
+  color: white;
+}
+
+.theme-dark .speakly-ai-text {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* dark theme button */
+.theme-dark .speakly-mic,
+.theme-dark.speakly-btn {
+  background: linear-gradient(135deg, #7c3aed, #4f8cff);
+  box-shadow:
+    0 0 35px rgba(124, 58, 237, 0.55),
+    0 0 90px rgba(79, 140, 255, 0.38),
+    0 0 140px rgba(124, 58, 237, 0.22);
+}
+
+
+/* light theme */
+/* light theme */
+.theme-light {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.theme-light .speakly-overlay {
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(168, 85, 247, 0.14),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at top right,
+      rgba(79, 140, 255, 0.12),
+      transparent 40%
+    );
+}
+
+.theme-light .speakly-orb,
+.theme-light .speakly-orb-glow {
+  background: linear-gradient(
+    135deg,
+    #38bdf8,
+    #6366f1,
+    #a855f7,
+    #ec4899
+  );
+}
+
+.theme-light .speakly-title {
+  color: #0f172a;
+}
+
+.theme-light .speakly-sub {
+  color: rgba(15, 23, 42, 0.68);
+}
+
+.theme-light .speakly-status {
+  color: #7c3aed;
+}
+
+.theme-light .speakly-wave span {
+  background: linear-gradient(180deg, #6366f1, #a855f7);
+}
+
+.theme-light .speakly-user-text {
+  color: #0f172a;
+}
+
+.theme-light .speakly-ai-text {
+  color: rgba(15, 23, 42, 0.72);
+}
+
+/* light theme button */
+.theme-light .speakly-mic,
+.theme-light.speakly-btn {
+  background: linear-gradient(
+    135deg,
+    #6366f1,
+    #8b5cf6,
+    #a855f7
+  );
+
+  box-shadow:
+    0 10px 30px rgba(99, 102, 241, 0.22),
+    0 20px 60px rgba(168, 85, 247, 0.16),
+    0 0 90px rgba(99, 102, 241, 0.10);
+}
+
+/* glass theme */
+.theme-glass {
+  background: rgba(10, 18, 35, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(22px) saturate(165%);
+  -webkit-backdrop-filter: blur(22px) saturate(165%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    0 20px 80px rgba(0, 0, 0, 0.35);
+}
+
+.theme-glass .speakly-overlay {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(56, 189, 248, 0.26), transparent 42%),
+    radial-gradient(circle at 88% 2%, rgba(236, 72, 153, 0.2), transparent 44%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.theme-glass .speakly-orb,
+.theme-glass .speakly-orb-glow {
+  background: linear-gradient(135deg, #67e8f9, #60a5fa, #a78bfa, #f472b6);
+}
+
+.theme-glass .speakly-title {
+  color: rgb(112, 112, 112);
+  text-shadow: 0 1px 16px rgba(125, 211, 252, 0.26);
+}
+
+.theme-glass .speakly-sub {
+  color: rgb(112, 112, 112);
+}
+
+.theme-glass .speakly-status {
+  color: #5bbcc9;
+}
+
+.theme-glass .speakly-wave span {
+  background: linear-gradient(180deg, #22d3ee, #818cf8);
+}
+
+.theme-glass .speakly-user-text {
+  color: #ffffff;
+}
+
+.theme-glass .speakly-ai-text {
+  color: rgba(226, 232, 240, 0.88);
+}
+
+/* glass theme button */
+.theme-glass .speakly-mic,
+.theme-glass.speakly-btn {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.9), rgba(99, 102, 241, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 8px 28px rgba(56, 189, 248, 0.34),
+    0 22px 64px rgba(99, 102, 241, 0.24);
+}
+
+/* neon */
+.theme-neon {
+  background: #03140e;
+  border: 1px solid rgba(34, 255, 163, 0.36);
+  box-shadow:
+    inset 0 1px 0 rgba(114, 255, 201, 0.2),
+    0 0 24px rgba(34, 255, 163, 0.22),
+    0 0 72px rgba(34, 255, 163, 0.14);
+}
+
+.theme-neon .speakly-overlay {
+  background:
+    radial-gradient(circle at 50% -8%, rgba(34, 255, 163, 0.26), transparent 44%),
+    radial-gradient(circle at 92% 4%, rgba(16, 185, 129, 0.2), transparent 40%),
+    linear-gradient(180deg, rgba(2, 44, 34, 0.35), rgba(1, 27, 22, 0.55));
+}
+
+.theme-neon .speakly-orb,
+.theme-neon .speakly-orb-glow {
+  background: linear-gradient(135deg, #22ffaa, #22e3a6, #10b981);
+}
+
+.theme-neon .speakly-title {
+  color: white;
+  text-shadow:
+    0 0 10px rgba(34, 255, 163, 0.35),
+    0 0 24px rgba(34, 255, 163, 0.25);
+}
+
+.theme-neon .speakly-sub {
+  color: rgba(200, 255, 230, 0.78);
+}
+
+.theme-neon .speakly-status {
+  color: #22ffaa;
+}
+
+.theme-neon .speakly-wave span {
+  background: linear-gradient(180deg, #34ffb5, #10b981);
+}
+
+.theme-neon .speakly-user-text {
+  color: #ecfff7;
+}
+
+.theme-neon .speakly-ai-text {
+  color: rgba(199, 255, 228, 0.82);
+}
+
+/* neon theme button */
+.theme-neon .speakly-mic,
+.theme-neon.speakly-btn {
+  background: linear-gradient(135deg, #22ffaa, #10b981);
+  border: 1px solid rgba(148, 255, 214, 0.42);
+  box-shadow:
+    inset 0 1px 0 rgba(210, 255, 235, 0.25),
+    0 0 22px rgba(34, 255, 163, 0.42),
+    0 0 64px rgba(16, 185, 129, 0.3);
+}

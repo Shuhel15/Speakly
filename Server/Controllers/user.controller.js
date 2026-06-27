@@ -46,7 +46,7 @@ export const saveAssistant = async (req, res) => {
     user.pages = pages || [];
     user.isSetupComplete = true;
     await user.save();
-    return res.status(200).json({ message: "Assistant saved successfully" });
+    return res.status(200).json({ message: "Assistant saved successfully", user });
   }catch(error){
     return res.status(500).json({ message: `Failed to save Assistant: ${error}` });
   }
