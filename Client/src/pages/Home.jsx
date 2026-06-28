@@ -57,6 +57,30 @@ function Home() {
       },
     },
   };
+
+  const stepContainer = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.12,
+      },
+    },
+  };
+
+  const stepItem = {
+    hidden: {
+      opacity: 0,
+      y: 40,
+    },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
   return (
     <div className="min-h-screen bg-[#f8fafc] overflow-hidden">
       <motion.section
@@ -177,7 +201,8 @@ function Home() {
           <motion.div
             variants={container}
             initial="hidden"
-            animate="show"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
             className="text-center mb-14"
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#081028]">
@@ -187,20 +212,43 @@ function Home() {
               Simple setup. No complicated integration.
             </p>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+          <motion.div
+            variants={stepContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8"
+          >
             {STEPS.map((s, i) => (
-              <div
+              <motion.div
                 key={i}
+                variants={stepItem}
+                whileHover={{
+                  y: -8,
+                  scale: 1.02,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 250,
+                  damping: 18,
+                }}
                 className="group bg-[#f8fafc] hover:bg-white
             border border-gray-100 rounded-[28px] p-7 transition-all
             hover:shadow-[0_15px_50px_rgba(0,0,0,0.06)]"
               >
-                <span
+                <motion.span
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{
+                    delay: i * 0.2,
+                    duration: 0.4,
+                  }}
                   className="text-4xl font-black text-transparent
               bg-clip-text bg-linear-to-r from-green-500 to-emerald-500"
                 >
                   {s.step}
-                </span>
+                </motion.span>
 
                 <h3 className="mt-5 text-lg font-semibold text-[#081028]">
                   {s.title}
@@ -209,39 +257,11 @@ function Home() {
                 <p className="mt-3 text-sm text-gray-500 leading-relaxed">
                   {s.desc}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
-
-      <footer className="bg-[#081028] px-6 py-10">
-        <div className="max-w-6xl mx-auto text-center flex flex-col sm:flex-row sm:text-left justify-between items-center gap-5 ">
-          <div>
-            {" "}
-            <div
-              onClick={() => navigate("/")}
-              className="flex items-center gap-1"
-            >
-              <img
-                src="/logo.png"
-                alt="logo"
-                className="w-auto h-9 rounded-full"
-              />
-              <h1 className="text-xl font-bold text-gray-200">
-                Speakly<span className="text-green-500"> AI</span>
-              </h1>
-            </div>
-            <p className="text-gray-400 text-sm mt-1">
-              Voice AI assistant for mordern websites.
-            </p>
-          </div>
-          <p className="text-gray-500 text-sm">
-            ©{new Date().getFullYear()} Speakly AI. All rights reserved.
-          </p>
-          <p className="text-gray-500 text-shadow-mauve-200">Made by Shuhel Ahmed with ❤️</p>
-        </div>
-      </footer>
     </div>
   );
 }

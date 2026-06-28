@@ -135,7 +135,7 @@ function Login({setUser}) {
                 whileTap={{ scale: 0.95 }}
                 className="mt-8 inline-flex items-center gap-2 px-6 
                 py-3 rounded-full bg-green-500 text-white 
-                font-semibold hover:bg-green-600 transition animate-bounce"
+                font-semibold hover:bg-green-600"
               >
                 <FcGoogle className="text-2xl bg-white rounded-full" />
                 Continue with Google

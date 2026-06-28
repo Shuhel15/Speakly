@@ -9,6 +9,7 @@ import Navbar from "./Components/Navbar";
 import Builder from "./pages/Builder";
 import Billing from "./pages/Billing";
 import {Toaster} from "react-hot-toast";
+import Footer from "./Components/Footer";
 
 
 export const ServerUrl = "http://localhost:5000";
@@ -49,6 +50,7 @@ function App() {
                 <Route path="/billing" element={<Billing user={user} setUser={setUser}/>} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
+              <Footer />
               
             </ProtectedRoute>
           }
