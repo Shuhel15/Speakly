@@ -1,12 +1,14 @@
-import express from "express"
 import dotenv from "dotenv"
+dotenv.config()
+
+import express from "express"
 import connectDB from "./configs/ConnectDB.js"
 import authRouter from "./Routes/auth.route.js"
 import cookieParser from "cookie-parser"
 import cors from "cors"
 import userRouter from "./Routes/user.route.js"
 import assistantRouter from "./Routes/assistant.route.js"
-dotenv.config()
+import billingRouter from "./Routes/billing.route.js"
 
 const app = express()
 
@@ -29,6 +31,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth",privateCors, authRouter)
 app.use("/api/user", privateCors,userRouter)
+app.use("/api/billing", privateCors, billingRouter)
 
 app.use("/api/assistant",publicCors, assistantRouter)
 

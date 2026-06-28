@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const billingSchema = new mongoose.Schema(
   {
    userId: {
-    tupe: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
    },
    amount: Number,
-   plan: string,
+   plan: String,
    paymentId: String,
    orderId: String,
 

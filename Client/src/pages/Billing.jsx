@@ -1,5 +1,19 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import tost from "react-hot-toast";
+import axios from "axios";
+import { ServerUrl } from "../App.jsx";
+function Billing({user, setUser}) {
 
-function Billing({user}) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(user && !user.isSetupComplete){
+      tost.error("Please setup your assistant first");
+      navigate("/builder");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
    const remainingMessages = Math.max(
     0,
     (user?.requestLimit || 0) - (user?.totalMessages || 0),
@@ -13,6 +27,40 @@ function Billing({user}) {
         ),
       )
     : 0;
+
+    // eslint-disable-next-line no-unused-vars
+    const handlePay = async () => {
+      try{
+        const res = await axios.post( ServerUrl + "/api/billing/order", {plan: "pro"}, {withCredentials: true});
+
+        const order = res.data.order;
+
+        const options = {
+          key:import.meta.env.VITE_RAZORPAY_KEY_ID,
+          amount: order.amount,
+          currency: order.currency,
+          name: "Speakly",
+          description: "Pro Plan",
+          order_id: order.id,
+
+          handler: async function (response) {
+            const verifyRes = await axios.post(ServerUrl + "/api/billing/verify", response, {withCredentials: true});
+            if(verifyRes.data.success){
+              tost.success("Payment successful");
+              setUser(verifyRes.data.user);
+            }
+          }, theme:{
+            color: "#7c3aed",
+          },
+        }
+
+        const razorpay = new window.Razorpay(options);
+        razorpay.open()
+    }catch(err){
+      tost.error("Payment failed. Please try again.");
+      console.log(err);
+    }
+  }
   return (
     <div className="min-h-screen bg-[#f7f8fc] px-4 py-10">
       <div className="max-w-5xl mx-auto">
@@ -76,12 +124,14 @@ function Billing({user}) {
                 </ul>
 
                 <button 
+                // onClick={handlePay}
                 disabled={user?.plan === "pro"}
                 className={`mt-8 h-14 w-full rounded-2xl font-semibold transition ${user?.plan === "pro"
                   ?"bg-emerald-200 text-black cursor-default"
                   :"bg-white text-[#081028] cursor-pointer"
                 }`}>
-                  {user?.plan === "pro" ? "Active Plan" : "Upgrade to Pro"}
+                  Comming soon
+                  {/* {user?.plan === "pro" ? "Active Plan" : "Upgrade to Pro"} */}
                 </button>
               </div>
             </div>
@@ -89,5 +139,4 @@ function Billing({user}) {
     </div>
   )
 }
-
 export default Billing
