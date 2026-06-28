@@ -5,6 +5,8 @@
 .speakly-ai-text {
   font-family: "Inter", sans-serif;
 }
+
+
 /* toogle btn */
 .speakly-btn {
   position: fixed;
@@ -196,7 +198,7 @@
   font-size: 13px;
   line-height: 1.4;
   text-align: center;
-  opacity: 0.82;
+  opacity: 1;
 }
 
 .speakly-bottom {
@@ -289,6 +291,15 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
+.theme-dark .lower-text {
+  position: absolute;
+  bottom: 8px;
+  font-size: 10px;
+  color: rgba(188, 188, 188, 0.48);
+  text-align: center;
+}
+
+
 /* dark theme button */
 .theme-dark .speakly-mic,
 .theme-dark.speakly-btn {
@@ -299,7 +310,7 @@
     0 0 140px rgba(124, 58, 237, 0.22);
 }
 
-/* light theme */
+
 /* light theme */
 .theme-light {
   background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
@@ -344,7 +355,13 @@
 .theme-light .speakly-ai-text {
   color: rgba(15, 23, 42, 0.72);
 }
-
+.theme-light .lower-text {
+  position: absolute;
+  bottom: 8px;
+  font-size: 10px;
+  color: rgba(95, 95, 95, 0.48);
+  text-align: center;
+}
 /* light theme button */
 .theme-light .speakly-mic,
 .theme-light.speakly-btn {
@@ -389,12 +406,12 @@
 }
 
 .theme-glass .speakly-title {
-  color: rgb(186, 186, 186);
+  color: rgb(61, 61, 61);
   text-shadow: 0 1px 16px rgba(125, 211, 252, 0.26);
 }
 
 .theme-glass .speakly-sub {
-  color: rgb(112, 112, 112);
+  color: rgb(69, 69, 69);
 }
 
 .theme-glass .speakly-status {
@@ -406,13 +423,19 @@
 }
 
 .theme-glass .speakly-user-text {
-  color: #ffffff;
+    color: rgb(69, 69, 69);
 }
 
 .theme-glass .speakly-ai-text {
-  color: rgba(226, 232, 240, 0.88);
+    color: rgb(69, 69, 69);
 }
-
+.theme-glass .lower-text {
+  position: absolute;
+  bottom: 8px;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.48);
+  text-align: center;
+}
 /* glass theme button */
 .theme-glass .speakly-mic,
 .theme-glass.speakly-btn {
@@ -483,6 +506,13 @@
   color: rgba(199, 255, 228, 0.82);
 }
 
+.theme-neon .lower-text {
+  position: absolute;
+  bottom: 8px;
+  font-size: 10px;
+  color: rgba(188, 188, 188, 0.48);
+  text-align: center;
+}
 /* neon theme button */
 .theme-neon .speakly-mic,
 .theme-neon.speakly-btn {

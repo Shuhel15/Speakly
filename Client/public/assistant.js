@@ -1,6 +1,6 @@
 (function () {
-  // userdata
 
+  // userdata
   const script = document.currentScript;
   const userId = script?.dataset.userId;
 
@@ -67,7 +67,7 @@
   <img src="http://localhost:5173/mic.svg" alt="mic" class="speakly-mic-icon" />
   </button>
   </div>
-
+  <p class="lower-text">By Speakly AI</p>
 
   </div>
 
@@ -87,9 +87,9 @@
 
   // toggle popup
   let open = false;
-  button.onclick=()=>{
+  button.onclick = () => {
     open = !open;
-      popup.style.display = open ? "flex" : "none";
+    popup.style.display = open ? "flex" : "none";
   }
 
 
@@ -100,26 +100,26 @@
     try {
       const res = await fetch(`http://localhost:5000/api/assistant/config/${userId}`);
 
-     const  data = await res.json();
+      const data = await res.json();
 
-     if(data){
-      assistantConfig = data.user;
-      applyConfig();
-     }
-    }catch(error){
+      if (data) {
+        assistantConfig = data.user;
+        applyConfig();
+      }
+    } catch (error) {
       console.error("Failed to load assistant config:", error);
     }
   }
 
-  const applyConfig = ()=>{
-    if(!assistantConfig) return;
+  const applyConfig = () => {
+    if (!assistantConfig) return;
 
     popup.className = `speakly-popup theme-${assistantConfig.theme}`;
     button.className = `speakly-btn theme-${assistantConfig.theme}`;
     const title = popup.querySelector(".speakly-title");
     title.innerHTML = `Hello! I'm ${assistantConfig.assistantName || "speakly AI"}`;
     const sub = popup.querySelector(".speakly-sub");
-    sub.innerHTML = ` Welcome to ${assistantConfig.businessName}.<br/> Ask anything about this website.`;
+    sub.innerHTML = ` Welcome to ${assistantConfig.businessName}<br/> Ask anything about this website.`;
 
   }
   loadAssistant();
@@ -133,41 +133,40 @@
 
   // text-speech
 
-  const speak =(text)=>{
-    window.speechSynthesis.cancel();
-    //show ai response
-    aiText.innerTest = text;
+const speak = (text) => {
+  window.speechSynthesis.cancel();
 
-    status.innerText = "AI Speaking...";
+  //show ai response
+  aiText.innerText = text;
 
-    const speech = new SpeechSynthesisUtterance(text);
+  status.innerText = "AI Speaking...";
 
-    speech.lang = "hi-IN";
-    speech.rate = 1;
-    speech.pitch = 1;
-    speech.volume = 1;
+  const speech = new SpeechSynthesisUtterance(text);
 
-    // voice end
-    speech.onend = ()=>{
-      status.innerText = "Tap button to Speak";
-      wave.style.opacity = "0";
-      }
+  speech.lang = "hi-IN";
+  speech.rate = 1;
+  speech.pitch = 1;
+  speech.volume = 1;
 
-      //start speaking
-        window.speechSynthesis.speak(speech);
-  }
+  speech.onend = () => {
+    status.innerText = "Tap button to Speak";
+    wave.style.opacity = "0";
+  };
+
+  window.speechSynthesis.speak(speech);
+};
 
 
-  const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  if (speechRecognition) {
+  if (SpeechRecognition) {
     const recognition = new SpeechRecognition();
 
     recognition.lang = "en-US";
     recognition.continuous = false;
     recognition.interimResults = false;
 
-    mic.onclick =()=>{
+    mic.onclick = () => {
       status.innerText = "Listening...";
       userText.innerText = "";
       aiText.innerText = "";
@@ -181,8 +180,9 @@
       recognition.stop();
 
       setTimeout(async () => {
-        try{
+        try {
           status.innerText = "Thinking...";
+
           const response = await fetch("http://localhost:5000/api/assistant/ask", {
             method: "POST",
             headers: {
@@ -202,19 +202,20 @@
               speak(data.response);
               setTimeout(() => {
                 window.location.href = data.path;
-              }, 1500);
+              }, 2000);
+
             } else {
               speak(data.aiResponse);
             }
           } else {
             speak("Sorry, I couldn't process your request.");
           }
-        }catch(error){
+        } catch (error) {
           console.log(error);
           speak("Server Error. Please try again later.");
         }
-      },600)
-      
+      }, 700)
+
     }
 
     recognition.onerror = (e) => {
@@ -222,6 +223,8 @@
       wave.style.opacity = "0";
       console.error("Speech recognition error:", e.error);
     }
+  } else {
+    status.innerText = "Speech recognition not supported.";
   }
 
 })();

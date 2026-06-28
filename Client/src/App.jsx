@@ -24,7 +24,6 @@ function App() {
         const res = await axios.get(ServerUrl + "/api/user/current-user", {
           withCredentials: true,
         });
-        console.log(res.data);
         setUser(res.data);
         setLoading(false);
       } catch (error) {

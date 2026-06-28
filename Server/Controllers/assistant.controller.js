@@ -45,18 +45,27 @@ export const askAssistant = async (req, res) => {
 
     const cleanedMessage = message.toLowerCase();
 
-    if (user.enableNavigation) {
+
+
       //navigation commands
       const navigationKeyWords = ["open", "show", "take me", "navigate", "go to", "go", "start", "visit"];
+    let matchedPage = null;
+    let wantsNavigation = false;
+  
+    if (user.enableNavigation) {
+     //check navigation intent
+    wantsNavigation = navigationKeyWords.some((word) => cleanedMessage.startsWith(word));
+
     }
 
-    //check navigation intent
-    const wantsNavigation = navigationKeyWords.some((word) => cleanedMessage.startsWith(word));
+
+
 
     //user wants to navigate to a page
+
     if (wantsNavigation) {
       //find matching page 
-      const matchedPage = user.pages.find((page) =>
+      matchedPage = user.pages.find((page) =>
         page.keywords.some((keyword) => cleanedMessage.includes(keyword.toLowerCase()))
       )
     }
@@ -77,13 +86,13 @@ export const askAssistant = async (req, res) => {
         success: true,
         action: "navigate",
         path: matchedPage.path,
-        response: `Opening ${matchedPage.name}`,
+        response: `Opening ${matchedPage.name} page`,
 
       })
     }
 
     const prompt =
-     `You are ${user.assistantName}.
+      `You are ${user.assistantName}.
      A helpful AI assistant for Business Name:${user.businessName}.
      Business Type:${user.businessType}.
      Business Description:${user.businessDescription}.
@@ -99,19 +108,20 @@ export const askAssistant = async (req, res) => {
      
      User Query: ${message}`;
 
-     const aiResponse = await generativeGeminiResponse(
-      prompt,
-      user.geminiApiKey,
+    const aiResponse = await generativeGeminiResponse(
+     { prompt,
+      apikey : user.geminiApiKey,
       user
-     )
-     if(user.plan === "free"){
-     user.totalMessages += 1;
-     await user.save();
      }
-     return res.json({ success: true, aiResponse });
+    )
+    if (user.plan === "free") {
+      user.totalMessages += 1;
+      await user.save();
+    }
+    return res.json({ success: true, aiResponse });
 
   } catch (error) {
     console.log(error)
-    return res.status(500).json({ success : false, message: 'AI Assistant Error' });
+    return res.status(500).json({ success: false, message: 'AI Assistant Error' });
   }
 }

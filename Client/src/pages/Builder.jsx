@@ -69,10 +69,8 @@ function Builder({ user, setUser }) {
         data,
         { withCredentials: true },
       );
-      console.log(res.data);
       setUser(res.data.user);
       setEditAssistant(false);
-      console.log("Assistant saved successfully:", res.data);
       tost.success("Assistant saved successfully!");
       setLoading(false);
     } catch (error) {
@@ -347,14 +345,14 @@ Your Website Content
 
                 <input
                   type="text"
-                  placeholder="/pricing"
+                  placeholder="/route"
                   onChange={(e) => setPagePath(e.target.value)}
                   value={pagePath}
                   className="border border-gray-200 rounded-2xl px-4 py-3"
                 />
                 <input
                   type="text"
-                  placeholder="Pricing, Plans"
+                  placeholder="Command(eg:home etc.)"
                   onChange={(e) => setPageKeywords(e.target.value)}
                   value={pageKeywords}
                   className="border border-gray-200 rounded-2xl px-4 py-3"
@@ -383,8 +381,9 @@ Your Website Content
 
             <button
               onClick={saveAssistant}
-              disabled={loading}
-              className="w-full h-14 rounded-2xl bg-linear-to-r from-green-500 to-emerald-500 text-white font-semibold hover:scale-[1.02] transition-all cursor-pointer"
+              disabled={loading || !assistantName|| !businessName|| !businessType||!businessDescription|| !geminiApiKey}
+              className="w-full h-14 rounded-2xl bg-linear-to-r from-green-500 to-emerald-500 text-white font-semibold hover:scale-[1.02] transition-all cursor-pointer
+              disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading
                 ? "Saving..."
