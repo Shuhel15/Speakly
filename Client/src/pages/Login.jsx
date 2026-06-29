@@ -13,6 +13,9 @@ import axios from "axios";
 import { ServerUrl } from "../App.jsx";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import AboutSection from "../Components/AboutSection.jsx";
+import FeaturesSection from "../Components/FeaturesSection.jsx";
+import Footer from "../Components/Footer.jsx";
 function Login({setUser}) {
   const navigate = useNavigate();
   const container = {
@@ -200,6 +203,9 @@ function Login({setUser}) {
           </motion.div>
         </div>
       </div>
+      <AboutSection/>
+      <FeaturesSection/>
+      <Footer/>
     </div>
   );
 }
