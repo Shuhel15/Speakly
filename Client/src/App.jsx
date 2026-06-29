@@ -12,7 +12,7 @@ import {Toaster} from "react-hot-toast";
 import Footer from "./Components/Footer";
 
 
-export const ServerUrl = "http://localhost:5000";
+export const ServerUrl = "https://speaklyaiserver.onrender.com";
 export const CLIENT_URL = "http://localhost:5173";
 
 function App() {
