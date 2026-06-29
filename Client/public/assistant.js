@@ -98,7 +98,7 @@
 
   const loadAssistant = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/assistant/config/${userId}`);
+      const res = await fetch(`https://speaklyaiserver.onrender.com/api/assistant/config/${userId}`);
 
       const data = await res.json();
 
@@ -183,7 +183,7 @@ const speak = (text) => {
         try {
           status.innerText = "Thinking...";
 
-          const response = await fetch("http://localhost:5000/api/assistant/ask", {
+          const response = await fetch("https://speaklyaiserver.onrender.com/api/assistant/ask", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
