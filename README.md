@@ -71,7 +71,6 @@ Speakly/
 │       └── billing.route.js        # Billing endpoints
 │
 └── README.md                        # This file
-|__ vercel.json
 ```
 
 ## � Quick Embed
