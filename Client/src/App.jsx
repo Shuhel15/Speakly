@@ -8,9 +8,8 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import Navbar from "./Components/Navbar";
 import Builder from "./pages/Builder";
 import Billing from "./pages/Billing";
-import {Toaster} from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import Footer from "./Components/Footer";
-
 
 export const ServerUrl = "https://speaklyaiserver.onrender.com";
 export const CLIENT_URL = "https://speakly-ra3t.onrender.com";
@@ -28,7 +27,9 @@ function App() {
         setUser(res.data);
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        console.log("FETCH USER ERROR");
+        console.log(error?.response?.status);
+        console.log(error?.response?.data);
         setLoading(false);
       }
     };
@@ -36,7 +37,7 @@ function App() {
   }, []);
   return (
     <>
-    <Toaster position="top-right"/>
+      <Toaster position="top-right" />
       <Routes>
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route
@@ -46,12 +47,17 @@ function App() {
               <Navbar setUser={setUser} user={user} />
               <Routes>
                 <Route path="/" element={<Home user={user} />} />
-                <Route path="/builder"element={<Builder user={user} setUser={setUser} />}/>
-                <Route path="/billing" element={<Billing user={user} setUser={setUser}/>} />
+                <Route
+                  path="/builder"
+                  element={<Builder user={user} setUser={setUser} />}
+                />
+                <Route
+                  path="/billing"
+                  element={<Billing user={user} setUser={setUser} />}
+                />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
               <Footer />
-              
             </ProtectedRoute>
           }
         />
