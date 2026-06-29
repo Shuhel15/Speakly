@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { FiArrowUpRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import AssistantPreview from "../Components/AssistantPreview";
+import AboutSection from "../Components/AboutSection";
+import FeaturesSection from "../Components/FeaturesSection";
 
 function Home() {
   const navigate = useNavigate();
@@ -218,7 +220,6 @@ function Home() {
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
             className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8"
-            className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8"
           >
             {STEPS.map((s, i) => (
               <motion.div
@@ -262,6 +263,10 @@ function Home() {
           </motion.div>
         </div>
       </section>
+
+      <AboutSection />
+
+      <FeaturesSection />
     </div>
   );
 }

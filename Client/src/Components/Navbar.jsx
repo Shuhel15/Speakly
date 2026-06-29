@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
 import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
 import toast from "react-hot-toast";
@@ -9,8 +9,27 @@ import { motion } from "framer-motion";
 
 function Navbar({ user, setUser }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const scrollToSection = (sectionId) => {
+    const scroll = () => {
+      const element = document.getElementById(sectionId);
+
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+
+    if (location.pathname !== "/") {
+      navigate("/");
+      window.setTimeout(scroll, 120);
+      return;
+    }
+
+    scroll();
+  };
+
   const handleLogout = async () => {
     try {
       await axios.get(ServerUrl + "/api/auth/logout", {
@@ -46,6 +65,24 @@ function Navbar({ user, setUser }) {
 
           {user && (
             <div className="hidden md:flex items-center gap-3">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => scrollToSection("about")}
+                className="px-4 py-2 rounded-xl text-sm font-medium text-gray-700 hover:text-green-600 hover:bg-white/70 transition-all cursor-pointer"
+              >
+                About
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => scrollToSection("features")}
+                className="px-4 py-2 rounded-xl text-sm font-medium text-gray-700 hover:text-green-600 hover:bg-white/70 transition-all cursor-pointer"
+              >
+                Features
+              </motion.button>
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -132,6 +169,30 @@ function Navbar({ user, setUser }) {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  className="w-full py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm font-medium shadow-md transition-all"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    scrollToSection("about");
+                  }}
+                >
+                  About
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-full py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm font-medium shadow-md transition-all"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    scrollToSection("features");
+                  }}
+                >
+                  Features
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   className="w-full py-2.5 rounded-xl bg-linear-to-r from-green-400 to-green-600 text-white text-sm font-medium shadow-md transition-all"
                   onClick={() => {
                     navigate("/builder");
@@ -172,7 +233,7 @@ function Navbar({ user, setUser }) {
       </motion.div>
       
       {/* Spacer to push content below fixed navbar */}
-      <div className="h-[70px]" />
+      <div className="h-17.5" />
     </>
   );
 }
