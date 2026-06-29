@@ -11,7 +11,7 @@
   //loading css
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "https://speakly-15.vercel.app/assistant.css";
+  link.href = "https://speakly-ra3t.onrender.com/assistant.css";
   document.head.appendChild(link);
 
   // create popup
@@ -64,7 +64,7 @@
   <div class="speakly-bottom">
 
   <button class="speakly-mic">
-  <img src="https://speakly-15.vercel.app/mic.svg" alt="mic" class="speakly-mic-icon" />
+  <img src="https://speakly-ra3t.onrender.com/mic.svg" alt="mic" class="speakly-mic-icon" />
   </button>
   </div>
   <p class="lower-text">By Speakly AI</p>
@@ -81,7 +81,7 @@
 
   const button = document.createElement("button");
   button.className = `speakly-btn theme-${theme}`;
-  button.innerHTML = `<img src="https://speakly-15.vercel.app/logo.png" alt="logo" class="speakly-button-icon" />`;
+  button.innerHTML = `<img src="https://speakly-ra3t.onrender.com/logo.png" alt="logo" class="speakly-button-icon" />`;
 
   document.body.appendChild(button);
 
