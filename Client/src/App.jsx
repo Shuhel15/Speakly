@@ -13,7 +13,7 @@ import Footer from "./Components/Footer";
 
 
 export const ServerUrl = "https://speaklyaiserver.onrender.com";
-export const CLIENT_URL = "https://speakly-15.vercel.app";
+export const CLIENT_URL = "https://speakly-ra3t.onrender.com";
 
 function App() {
   const [user, setUser] = useState(null);
