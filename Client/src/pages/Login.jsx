@@ -16,7 +16,7 @@ import toast from "react-hot-toast";
 import AboutSection from "../Components/AboutSection.jsx";
 import FeaturesSection from "../Components/FeaturesSection.jsx";
 import Footer from "../Components/Footer.jsx";
-function Login({setUser}) {
+function Login({ setUser }) {
   const navigate = useNavigate();
   const container = {
     hidden: {},
@@ -63,16 +63,15 @@ function Login({setUser}) {
     try {
       const result = await signInWithPopup(auth, provider);
       const { displayName, email } = result.user;
-      const res = await axios.post(
-        ServerUrl + "/api/auth/google",
-        {
-          name: displayName,
-          email,
-        },
-        { withCredentials: true },
-      );
-      console.log(ServerUrl + "/api/auth/google");
-      setUser(res.data);
+
+      const res = await axios.post(ServerUrl + "/api/auth/google", {
+        name: displayName,
+        email,
+      });
+
+      localStorage.setItem("token", res.data.token);
+
+      setUser(res.data.user);
       toast.success("Login successful");
       navigate("/");
     } catch (error) {
@@ -203,9 +202,9 @@ function Login({setUser}) {
           </motion.div>
         </div>
       </div>
-      <AboutSection/>
-      <FeaturesSection/>
-      <Footer/>
+      <AboutSection />
+      <FeaturesSection />
+      <Footer />
     </div>
   );
 }

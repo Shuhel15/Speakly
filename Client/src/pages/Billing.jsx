@@ -4,18 +4,17 @@ import tost from "react-hot-toast";
 import axios from "axios";
 import { ServerUrl } from "../App.jsx";
 import { motion } from "framer-motion";
-function Billing({user, setUser}) {
-
+function Billing({ user, setUser }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(user && !user.isSetupComplete){
+    if (user && !user.isSetupComplete) {
       tost.error("Please setup your assistant first");
       navigate("/builder");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
-   const remainingMessages = Math.max(
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const remainingMessages = Math.max(
     0,
     (user?.requestLimit || 0) - (user?.totalMessages || 0),
   );
@@ -29,7 +28,7 @@ function Billing({user, setUser}) {
       )
     : 0;
 
-    const containerVariants = {
+  const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -53,38 +52,55 @@ function Billing({user, setUser}) {
   };
 
   // eslint-disable-next-line no-unused-vars
-    const handlePay = async () => {
-      try{
-        const res = await axios.post( ServerUrl + "/api/billing/order", {plan: "pro"}, {withCredentials: true});
-
-        const order = res.data.order;
-
-        const options = {
-          key:import.meta.env.VITE_RAZORPAY_KEY_ID,
-          amount: order.amount,
-          currency: order.currency,
-          name: "Speakly",
-          description: "Pro Plan",
-          order_id: order.id,
-
-          handler: async function (response) {
-            const verifyRes = await axios.post(ServerUrl + "/api/billing/verify", response, {withCredentials: true});
-            if(verifyRes.data.success){
-              tost.success("Payment successful");
-              setUser(verifyRes.data.user);
-            }
-          }, theme:{
-            color: "#7c3aed",
+  const handlePay = async () => {
+    try {
+      const res = await axios.post(
+        ServerUrl + "/api/billing/order",
+        { plan: "pro" },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
+      );
 
-        const razorpay = new window.Razorpay(options);
-        razorpay.open()
-    }catch(err){
+      const order = res.data.order;
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Speakly",
+        description: "Pro Plan",
+        order_id: order.id,
+
+        handler: async function (response) {
+          const verifyRes = await axios.post(
+            ServerUrl + "/api/billing/verify",
+            response,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            },
+          );
+          if (verifyRes.data.success) {
+            tost.success("Payment successful");
+            setUser(verifyRes.data.user);
+          }
+        },
+        theme: {
+          color: "#7c3aed",
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (err) {
       tost.error("Payment failed. Please try again.");
       console.log(err);
     }
-  }
+  };
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -102,7 +118,9 @@ function Billing({user, setUser}) {
           <h2 className=" text-3xl font-bold text-[#081028]">
             Billing & Subscription
           </h2>
-          <p className="text-gray-500 mt-1">Manage your AI Assistant plan and usage.</p>
+          <p className="text-gray-500 mt-1">
+            Manage your AI Assistant plan and usage.
+          </p>
         </motion.div>
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6"
@@ -127,8 +145,7 @@ function Billing({user, setUser}) {
                     : "text-amber-500",
             },
             {
-              label:
-                user?.plan === "free" ? "Messages Left" : "Plan Expiry",
+              label: user?.plan === "free" ? "Messages Left" : "Plan Expiry",
               value:
                 user?.plan === "free"
                   ? remainingMessages
@@ -233,8 +250,7 @@ function Billing({user, setUser}) {
           </motion.div>
         </motion.div>
       </div>
-  
     </motion.div>
-  )
+  );
 }
-export default Billing
+export default Billing;

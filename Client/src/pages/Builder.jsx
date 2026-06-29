@@ -69,7 +69,11 @@ function Builder({ user, setUser }) {
       const res = await axios.post(
         ServerUrl + "/api/user/save-assistant",
         data,
-        { withCredentials: true },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
       );
       setUser(res.data.user);
       setEditAssistant(false);
@@ -423,7 +427,7 @@ Your Website Content
                hover:shadow-lg transition-all cursor-pointer flex items-center gap-2"
                 >
                   Get API Key
-                  <FiExternalLink size={16}/>
+                  <FiExternalLink size={16} />
                 </motion.a>
               </div>
               <motion.input

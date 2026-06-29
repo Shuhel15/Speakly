@@ -2,8 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
 import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
 import toast from "react-hot-toast";
-import axios from "axios";
-import { ServerUrl } from "../App";
+// import axios from "axios";
+// import { ServerUrl } from "../App";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -30,19 +30,15 @@ function Navbar({ user, setUser }) {
     scroll();
   };
 
-  const handleLogout = async () => {
-    try {
-      await axios.get(ServerUrl + "/api/auth/logout", {
-        withCredentials: true,
-      });
-      setUser(null);
-      toast.success("Logout successful");
-      navigate("/login");
-    } catch (error) {
-      toast.error("Logout failed");
-      console.log("Logout error:", error);
-    }
-  };
+const handleLogout = () => {
+  localStorage.removeItem("token");
+
+  setUser(null);
+
+  toast.success("Logout successful");
+
+  navigate("/login");
+};
   return (
     <>
       <motion.div

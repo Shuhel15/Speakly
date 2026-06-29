@@ -18,23 +18,37 @@ function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchMe = async () => {
-      try {
-        const res = await axios.get(ServerUrl + "/api/user/current-user", {
-          withCredentials: true,
-        });
-        setUser(res.data);
+useEffect(() => {
+  const fetchMe = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
         setLoading(false);
-      } catch (error) {
-        console.log("FETCH USER ERROR");
-        console.log(error?.response?.status);
-        console.log(error?.response?.data);
-        setLoading(false);
+        return;
       }
-    };
-    fetchMe();
-  }, []);
+
+      const res = await axios.get(
+        ServerUrl + "/api/user/current-user",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setUser(res.data);
+      setLoading(false);
+    } catch (error) {
+      console.log("FETCH USER ERROR");
+      console.log(error?.response?.status);
+      console.log(error?.response?.data);
+      setLoading(false);
+    }
+  };
+
+  fetchMe();
+}, []);
   return (
     <>
       <Toaster position="top-right" />
