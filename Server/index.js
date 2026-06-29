@@ -13,7 +13,7 @@ import billingRouter from "./Routes/billing.route.js"
 const app = express()
 
 const privateCors = cors({
-  origin:[ "http://localhost:5173"],
+  origin:[ "https://speakly-15.vercel.app"],
   credentials:true
 })
 
